@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 class SQLiteHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -80,9 +81,39 @@ class SQLiteHelper(context: Context) :
                 val std = StudentModel(id = id, name = name, email = email)
                 stdList.add(std)
 
-            }while (cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         return stdList
+    }
+
+
+    fun updateStudent(std: StudentModel): Int {
+        val db = this.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(ID, std.id.toString())
+        contentValues.put(NAME, std.name)
+        contentValues.put(EMAIL, std.email)
+
+        Log.d("ID","${std.id}")
+        Log.d("Name", std.name)
+        Log.d("Email", std.email)
+
+//        val success = db.update(TBL_STUDENT, contentValues,"id " + std.id,null)
+        val success = db.update(TBL_STUDENT, contentValues, "id=" + std.id, null)
+        db.close()
+        return success
+    }
+
+    fun deleteStudent(id: Int): Int {
+        val db = this.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(ID, id)
+
+        val success = db.delete(TBL_STUDENT, "id=" + id, null)
+        db.close()
+        return success
     }
 
 }
