@@ -108,10 +108,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deleteStudent(id: Int) {
-//        if (std == null) return
-
-        Log.d("Data", "${std}")
-
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Are you want to delete this item")
         builder.setCancelable(true)
